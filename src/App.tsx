@@ -1,7 +1,81 @@
 import "./App.css";
 import axios from "axios";
+import styled from "styled-components";
 import { type Story } from "./data.ts";
 import React, { useState, useEffect, useRef, type JSX } from "react";
+
+const StyledContainer = styled.div`
+  height: 100vw;
+  padding: 20px;
+
+  background #83a4d4;
+  background: linear-gradient(to left, #b6fbff, #83a4d4);
+  color: #171212;
+  `;
+
+const StyledHeadlinePrimary = styled.h1`
+  font-size: 48px;
+  font-weight: 300;
+  letter-spacing: 2px;
+`;
+
+const StyledItem = styled.li`
+  display: flex;
+  align-items: center;
+  padding-bottom: 5px;
+`;
+
+type StyledColumnProps = {
+  width: string;
+};
+const StyledColumn = styled.span<StyledColumnProps>`
+  padding: 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  a {
+    color: inherit;
+  }
+  width: ${(props) => props.width};
+`;
+
+const StyledButton = styled.button`
+  background: transparent;
+  border: 1px solid #171212;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+  &:hover {
+    background: #171212;
+    color: #ffffff;
+  }
+`;
+
+const StyledButtonSmall = styled(StyledButton)`
+  padding: 5px;
+`;
+const StyledButtonLarge = styled(StyledButton)`
+  padding: 10px;
+`;
+const StyledSearchForm = styled.form`
+  padding: 10px 0 20px 0;
+  display: flex;
+  align-items: baseline;
+`;
+
+const StyledLabel = styled.label`
+  border-top: 1px solid #171212;
+  border-left: 1px solid #171212;
+  padding-left: 5px;
+  font-size: 24px;
+`;
+const StyledInput = styled.input`
+  border: none;
+  border-bottom: 1px solid #171212;
+  background-color: transparent;
+  font-size: 24px;
+`;
 
 const API_ENDPOINT: string = "https://hn.algolia.com/api/v1/search?query=";
 
@@ -74,28 +148,30 @@ function Item({
   onRemove,
 }: ItemProps) {
   return (
-    <li>
-      <span>
+    <StyledItem>
+      <StyledColumn width="40%">
         <a href={url}>{title}</a>
-      </span>
+      </StyledColumn>
       <span>&nbsp;</span>
-      <span>{author}</span>
+      <StyledColumn width="30%">{author}</StyledColumn>
       <span>&nbsp;</span>
-      <span>{num_comment}</span>
+      <StyledColumn width="10%">{num_comment}</StyledColumn>
       <span>&nbsp;</span>
-      <span>{points}</span>
+      <StyledColumn width="10%">{points}</StyledColumn>
       <span>&nbsp;</span>
-      <button type="button" onClick={onRemove}>
-        Remove
-      </button>
-    </li>
+      <StyledColumn width="10%">
+        <StyledButtonSmall type="button" onClick={onRemove}>
+          Remove
+        </StyledButtonSmall>
+      </StyledColumn>
+    </StyledItem>
   );
 }
 
 const title: JSX.Element = (
-  <h1>
+  <StyledHeadlinePrimary>
     {welcome.greeting} {welcome.title}
-  </h1>
+  </StyledHeadlinePrimary>
 );
 
 type searchFormProps = {
@@ -109,7 +185,7 @@ function SearchForm({
   searchTerm,
 }: searchFormProps) {
   return (
-    <form action={searchAction}>
+    <StyledSearchForm action={searchAction}>
       <InputWithLabel
         id="search"
         onChange={onSearchInput}
@@ -118,11 +194,11 @@ function SearchForm({
       >
         <strong>Search: </strong>
       </InputWithLabel>
-      <button type="submit" disabled={!searchTerm}>
+      <StyledButtonLarge type="submit" disabled={!searchTerm}>
         Search
-      </button>
+      </StyledButtonLarge>
       <hr />
-    </form>
+    </StyledSearchForm>
   );
 }
 
@@ -195,7 +271,7 @@ function InputWithLabel({
 
   return (
     <>
-      <label htmlFor={id}>{label ? label : children} </label>
+      <StyledLabel htmlFor={id}>{label ? label : children} </StyledLabel>
       <input
         ref={inputRef}
         id={id}
@@ -260,7 +336,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <div>
+    <StyledContainer>
       {title}
 
       <SearchForm
@@ -283,7 +359,7 @@ function App(): JSX.Element {
           onRemoveSite={handleRemoveSite}
         />
       )}
-    </div>
+    </StyledContainer>
   );
 }
 
