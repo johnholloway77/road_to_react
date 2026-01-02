@@ -19,16 +19,6 @@ type StoryData = { data: Story[]; isLoading: boolean; isError: boolean };
 
 type hackNewsResponse = { hits: Story[] };
 
-// type StoriesResponse = { data: { stories: Story[] } };
-
-// function getAsyncStories() {
-//   return new Promise(
-//     (resolve) =>
-//       setTimeout(() => resolve({ data: { stories: storyList } }), 2000),
-//     //   //setTimeout(reject, 2000),
-//   );
-// }
-
 type SiteAction =
   | { type: "FETCH_STORIES_INIT" }
   | { type: "FETCH_STORIES_SUCCESS"; payload: Story[] }
