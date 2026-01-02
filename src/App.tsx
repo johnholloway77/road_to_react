@@ -1,4 +1,7 @@
 import "./App.css";
+import Trash from "./assets/trash.svg?react";
+import Magnify from "./assets/magnify.svg?react";
+
 import axios from "axios";
 import { type Story } from "./data.ts";
 import React, { useState, useEffect, useRef, type JSX } from "react";
@@ -81,7 +84,7 @@ function Item({
           onClick={onRemove}
           className="button button_small"
         >
-          Remove
+          <Trash height="18px" width="18px" />
         </button>
       </span>
     </li>
@@ -119,7 +122,7 @@ function SearchForm({
         disabled={!searchTerm}
         className="button button_large"
       >
-        Search
+        <Magnify height="20px" width="20px" /> Search
       </button>
       <hr />
     </form>
