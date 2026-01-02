@@ -1,5 +1,6 @@
-import "./App.css";
+import styles from "./app.module.css";
 import axios from "axios";
+import clsx from "clsx";
 import { type Story } from "./data.ts";
 import React, { useState, useEffect, useRef, type JSX } from "react";
 
@@ -74,26 +75,32 @@ function Item({
   onRemove,
 }: ItemProps) {
   return (
-    <li>
-      <span>
+    <li className={styles.item}>
+      <span style={{ width: "40%" }}>
         <a href={url}>{title}</a>
       </span>
       <span>&nbsp;</span>
-      <span>{author}</span>
+      <span style={{ width: "30%" }}>{author}</span>
       <span>&nbsp;</span>
-      <span>{num_comment}</span>
+      <span style={{ width: "10%" }}>{num_comment}</span>
       <span>&nbsp;</span>
-      <span>{points}</span>
+      <span style={{ width: "10%" }}>{points}</span>
       <span>&nbsp;</span>
-      <button type="button" onClick={onRemove}>
-        Remove
-      </button>
+      <span style={{ width: "10%" }}>
+        <button
+          type="button"
+          onClick={onRemove}
+          className={clsx(styles.button, styles.buttonLarge)}
+        >
+          Remove
+        </button>
+      </span>
     </li>
   );
 }
 
 const title: JSX.Element = (
-  <h1>
+  <h1 className={styles.headlinePrimary}>
     {welcome.greeting} {welcome.title}
   </h1>
 );
@@ -109,7 +116,7 @@ function SearchForm({
   searchTerm,
 }: searchFormProps) {
   return (
-    <form action={searchAction}>
+    <form action={searchAction} className={styles.searchForm}>
       <InputWithLabel
         id="search"
         onChange={onSearchInput}
@@ -118,7 +125,11 @@ function SearchForm({
       >
         <strong>Search: </strong>
       </InputWithLabel>
-      <button type="submit" disabled={!searchTerm}>
+      <button
+        type="submit"
+        disabled={!searchTerm}
+        className={`${styles.button} ${styles.buttonLarge}`}
+      >
         Search
       </button>
       <hr />
@@ -195,7 +206,9 @@ function InputWithLabel({
 
   return (
     <>
-      <label htmlFor={id}>{label ? label : children} </label>
+      <label htmlFor={id} className={styles.label}>
+        {label ? label : children}{" "}
+      </label>
       <input
         ref={inputRef}
         id={id}
@@ -203,9 +216,8 @@ function InputWithLabel({
         value={value}
         autoFocus={isFocused}
         onChange={onChange}
+        className={styles.input}
       />
-      <br />
-      <p>Searching for {value}</p>
     </>
   );
 }
@@ -260,7 +272,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       {title}
 
       <SearchForm
